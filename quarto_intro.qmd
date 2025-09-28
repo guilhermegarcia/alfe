@@ -1,0 +1,302 @@
+---
+title: Un document quarto
+subtitle: Atelier ALFE sur la préparation des documents académiques (PDF)
+author: Guilherme D. Garcia
+# format: docx
+format: pdf
+header-includes:
+    - \usepackage{tipa}
+    - \usepackage{tikz-qtree}
+highlight-style: tango
+date: 09/29/2025
+lang: fr
+crossref:
+    tbl-title: "Tableau"
+    tbl-prefix: "Tableau"
+    fig-title: "Figure"
+    fig-prefix: "Figure"
+date-format: "long"
+number-sections: true
+bibliography: references.bib
+# csl: https://www.zotero.org/styles/apa
+csl: https://www.zotero.org/styles/chicago-author-date-17th-edition
+citeproc: true
+---
+
+
+# Création d'un document Quarto
+
+Un document Quarto a l'extension `.qmd`. C'est essentiellement un fichier texte. Pourquoi l'utiliser?
+
+1. **Automatisation** : les liens, les références (croisées et bibliographiques), et les codes sont facilement inclus dans notre document. Par exemple, nos graphiques sont générés _dans_ le document.
+2. **Esthétique** : un résultat professionnel (LaTeX).
+3. **Flexibilité**: un seul fichier source capable de générer un document `PDF`, `docx` ou `HTML`. Vous pouvez créer un site web, un livre, un article, une présentation, etc.
+
+
+Dans un document Quarto, on commence toujours par un **préambule**, toujours entouré de deux ensembles de `---`, où seront spécifiées les informations principales du document. Vous pouvez simplement copier et coller le préambule ci-dessous.
+
+```{.yaml} 
+---
+title: Un document quarto
+subtitle: Atelier ALFE sur la préparation des documents
+author: Guilherme D. Garcia
+format: pdf
+date: today
+lang: fr
+crossref:
+    tbl-title: "Tableau"
+    tbl-prefix: "Tableau"
+    fig-title: "Figure"
+    fig-prefix: "Figure"
+date-format: "long"
+number-sections: true
+---
+```
+
+
+
+# Une introduction {#sec-intro}
+
+On peut créer trois types de documents avec Quarto :
+
+1. `PDF`, qui sera généré avec LaTeX ou `typst`
+    - `typst` est plus rapide, mais plus limité pour la linguistique (c'est un nouveau système)
+    - LaTeX est le principal système de préparation de documents scientifiques/académiques. Bien que `typst` soit plus simple et plus rapide, LaTeX offre une combinaison complète d'outils pour la linguistique (arbres syntaxiques, symboles phonétiques, etc.)
+2. `docx`, si vous devez soumettre un document MS Word
+3. `html`, si vous voulez avoir un site web ou un blog
+
+Vous pouvez donc créer des articles, des affiches, des livres, etc. Tous les documents dont vous avez besoin peuvent être générés à partir de Quarto, *y compris la gestion bibliographique*. La [page](http://fr.gdgarcia.ca/alfe) de l'ALFE en est un exemple.
+
+L'avantage d'utiliser Quarto est que vous n'avez pas besoin d'apprendre à utiliser LaTeX, dont la courbe d'apprentissage peut être abrupte. L'inconvénient sera les limitations impliquées dans l'utilisation *indirecte* de LaTeX.  
+
+## Formatage de texte
+
+Il est facile de formater le texte avec Quarto : on utilise simplement la syntaxe de **Markdown.**
+
++-----------------------------------------+-----------------------------------------+
+| **Syntaxe Markdown**                    | **Résultat**                            |
++=========================================+=========================================+
+| `*italique*, **gras**, ***gras it***`   | *italique*, **gras**, ***gras it***     |
++-----------------------------------------+-----------------------------------------+
+| `exposant^2^ / indice~2~`               | exposant^2^ / indice~2~                 |
++-----------------------------------------+-----------------------------------------+
+| `~~texte barré~~`                       | ~~texte barré~~                         |
++-----------------------------------------+-----------------------------------------+
+| `code verbatim`                         | `code verbatim`                         |
++-----------------------------------------+-----------------------------------------+
+| `[ULaval](http://ulaval.ca)`            | [ULaval](http://ulaval.ca)              |
++-----------------------------------------+-----------------------------------------+
+
+## Des tableaux
+
+Quarto est souvent utilisé avec R, donc les tableaux sont générés à partir des blocs de codes en R (ou Python). Il est toutefois possible de créer des tableaux de façon manuelle aussi. En d'autres termes, vous pouvez utiliser Quarto sans avoir besoin de R, en tant qu'alternative à Microsoft Word.
+
+| **Pays** | **Capital**      | **Devise** |
+|----------|------------------|------------|i
+| Canada   | Ottawa           | Dollar     |
+| Espagne  | Madrid           | Euro       |
+| Mexique  | Ciudad de México | Peso       |
+
+: Un tableau très simple (manuel) {#tbl-exemple}
+
+
+Comment le tableau ci-dessus a été créé? On utilise les barres verticales :
+
+```default 
+| **Pays** | **Capital**      | **Devise** |
+|----------|------------------|------------|
+| Canada   | Ottawa           | Dollar     |
+| Espagne  | Madrid           | Euro       |
+| Mexique  | Ciudad de México | Peso       |
+
+: Un tableau très simple (manuel) {#tbl-exemple}
+```
+
+
+## Des figures
+
+
+On ajoute une figure avec la syntaxe `![A](B)`, où :
+
+- A = la légende de la figure (pour le format `html`; vous pouvez l'ignorer pour les documents `PDF`)
+- B = le chemin du fichier en question
+
+
+![Exemple](figure.png){width=30% fig-align="center" #fig-maFig}
+
+
+Voici le code pour ajouter la figure en question au document :
+
+```{.qmd}
+![Exemple](figure.png){width=30% fig-align="center" #fig-maFig}
+```
+
+Dans la partie finale du code, `#fig-maFig`, nous donne un identifiant, ce qui nous permet d'avoir des références croisées.
+
+# Références croisées
+
+Les sections et les objets (tableaux, figures, codes, etc.) peuvent être ciblés par des références croisées. Par exemple, « la @fig-maFig » (`la @fig-maFig`) nous donne un lien cliquable. De la même façon, on peut ajouter un lien vers la @sec-intro (`la @sec-intro`). Voilà pourquoi les étiquettes sont essentielles. On utilise `#préfixe-X` pour définir une étiquette et `@préfixe-X` pour l'utiliser, où le préfixe dépendra de l'objet : `fig`, `tbl`, `sec`, etc. Le `X` est l'étiquette que vous voulez utiliser.
+
+# Références bibliographiques
+
+Il est très facile de gérer vos références bibliographiques avec Quarto (ou LaTeX). Voici les étapes :
+
+1. Créer un fichier `references.bib` (c'est un fichier texte)
+2. Ajouter vos références selon le format `.bib`, p. ex., à partir de Google Scholar
+3. Ajouter la ligne `bibliography: references.bib` au préambule
+4. Citer vos références en utilisant la syntaxe `@mot-cle` (le mot clé sera le premier argument de chaque référence `bib`).
+
+Voici un exemple d'une référence `bib` :
+
+```{.bib}
+@book{zsiga2024sounds,
+  title={The sounds of language: an introduction to phonetics and phonology},
+  author={Zsiga, Elizabeth C},
+  year={2024},
+  edition={2nd},
+  publisher={John Wiley \& Sons},
+  address={Hoboken, NJ}
+}
+```
+
+Le mot-clé en question sera `zsiga2024sounds` (vous pouvez le changer, naturellement). On pourra donc citer l'œuvre en question en tapant `@zsiga2024sounds` : « Selon @zsiga2024sounds, ...». La référence sera automatiquement ajoutée à la fin du document. Ce système vous permettra d'avoir une bibliothèque complète dans un seul fichier `.bib`.
+
+## Styles bibliographiques
+
+Notre préambule maintenant aura un peu plus d'information (voir le code ci-dessous). On utilise APA pour nos références en ce moment, mais vous pouvez changer le style en modifiant l'argument `csl` dans le préambule selon le besoin (consultez le dépôt de styles de Zotero [ici](https://www.zotero.org/styles)).
+
+
+```{.yaml} 
+---
+title: Un document Quarto
+subtitle: Atelier ALFE sur la préparation des documents
+author: Guilherme D. Garcia
+format: pdf
+highlight-style: tango
+date: today
+lang: fr
+crossref:
+    tbl-title: "Tableau"
+    tbl-prefix: "Tableau"
+    fig-title: "Figure"
+    fig-prefix: "Figure"
+date-format: "long"
+number-sections: true
+bibliography: references.bib
+# csl: https://www.zotero.org/styles/apa
+csl: https://www.zotero.org/styles/chicago-author-date-17th-edition
+citeproc: true
+---
+```
+
+
+# Modifications avancées
+
+On a toujours besoin de personnaliser nos documents. Dans Quarto, cela impliquera un préambule plus complexe, ce qui n'est pas notre objectif dans ce tutoriel. Par exemple, l'ajustement des marges est souvent nécessaire. L'IA pourra vous aider rapidement dans ce type de situation, notamment avec [Claude.ai](https://claude.ai).
+
+# La combinaison idéale : code et texte
+
+L'un des avantages d'utiliser Quarto est la possibilité de générer notre analyse à l'intérieur du document. Par exemple, si vous devez créer une figure, elle peut être générée _dans_ le document lui-même (avec R ou Python, par exemple). En conséquence, lorsque vos données changent, votre document sera mis à jour automatiquement, ce qui minimise les erreurs. De plus, vous pouvez ajouter du code _dans_ le texte. Par exemple, le calcul suivant est exécuté par R : 5 + 5 = `r 5 + 5`. Il faut noter cependant que Quarto peut être utilisé sans aucune analyse de données : il peut simplement remplacer Microsoft Word + EndNote/Zotero/Mandeley, par exemple.
+
+```{r} 
+#| message: false
+#| echo: false
+#| out-width: 60%
+#| fig-align: center
+set.seed(1)
+hist(rnorm(100), 
+  main = "Ma figure", 
+  xlab = "Distribution d'une variable", 
+  ylab = "Fréquence")
+```
+
+
+# Bonus : linguistique
+
+## Sémantique
+
+Les symboles utilisés en sémantique sont produits à partir du mode mathématique, entre `$...$` ou `$$...$$` (séquence séparée du texte). Voici quelques exemples : a $\rightarrow$ b, a ... z $\vdash$ f, a $\nrightarrow$ b, A $\subset$ B, a $\neq$ b, $\forall x$, A$^{C}$, $\lambda x$, etc. La plupart du temps, il n'est pas nécessaire de charger des bibliothèques additionnelles, mais cela dépendra de vos besoins.
+
+
+
+## Syntaxe {#sec-syntax}
+
+La syntaxe (et la phonologie) est plus complexe. Bien qu'un document Quarto soit capable de générer des résultats en `PDF`, `HTML` et `docx`, il y a des structures qui ne sont pas compatibles avec toutes ces extensions (un exemple évident serait un élément interactif, qui ne sera générée que dans un fichier `HTML`). C'est la situation pour les arbres syntactiques : ici, on utilise une bibliothèque LaTeX appelée `tikz-qtree`,^[Il y a d'autres possibilités, mais `tikz` est probablement l'option la plus populaire.] donc la seule option sera un résultat `PDF` à partir du format `pdf` dans le préambule. De plus, il faudra ajouter deux lignes à notre préambule (après `format: pdf`) :
+
+```{yaml} 
+header-includes:
+    - \usepackage{tikz-qtree}
+```
+
+Cela nous permettra d'employer la fonction `Tree`. Voici un exemple :
+
+  \begin{tikzpicture}[scale=1]
+    \Tree[.SX [.Spécifieur ] [.X [.X$_0$ ] [.Complément ] ] ]
+  \end{tikzpicture}
+
+Le code pour générer l'arbre ci-dessus :
+
+```{latex} 
+  \begin{tikzpicture}[scale=1]
+    \Tree[.{SX} [.Spécifieur ] [.X [.{X$_0$} ] [.Complément ] ] ]
+  \end{tikzpicture}
+```
+
+Consultez [ce document](https://mirrors.ibiblio.org/CTAN/graphics/pgf/contrib/tikz-qtree/tikz-qtree-manual.pdf) pour en savoir plus. La bibliothèque `tikz` nous permet de créer des structures non linéaires. Elle est donc un outil essentielle en linguistique.
+
+
+## Phonologie
+
+Le besoin le plus évident ici sera la transcription phonémique/phonétique. Heureusement, une bibliothèque nous permet de créer des transcriptions impeccables : la bibliothèque `tipa`. Vous devez donc ajouter la ligne `- \usepackage{tipa}` au préambule, après ou avant `tikz-qtree` (voir la @sec-syntax). Voici un exemple : \textipa{/l@ gaKs\~O/}. Il faut apprendre les codes utilisés pour générer chaque phonème, mais il y a un tableau de conversion très utile [ici](https://www.dropbox.com/scl/fi/rpq8454amyiujukk8cxis/tipachart.pdf?rlkey=bpc54lbzlmliyf9z2tyv8t2mv&dl=1).
+
+- *butterfly* : \textipa{["b2R\textrhookschwa ""flaI]} \hfill `\textipa{["b2R\textrhookschwa ""flaI]}`
+- *ordinateur* : \textipa{[OKdzinat\oe K]} \hfill `\textipa{[OKdzinat\oe K]}`
+- *coração* : \textipa{[koRa"s\~a\~wN]} \hfill `\textipa{[koRa"s\~a\~wN]}`
+
+Naturellement, il y a aussi des structures non linéaires en phonologie (la prosodie, les matrices de traits, etc.). En fait, la @fig-maFig a été créée avec LaTeX originalement. Consultez cette [page-ci](https://fr.gdgarcia.ca/latex_phonology.html). 
+
+
+# Conclusion
+
+Notre préambule en ce moment est affiché ci-dessous :
+
+```{yaml} 
+---
+title: Un document quarto
+subtitle: Atelier ALFE sur la préparation des documents
+author: Guilherme D. Garcia
+# format: docx
+format: pdf
+header-includes:
+    - \usepackage{tipa}
+    - \usepackage{tikz-qtree}
+highlight-style: tango
+date: 09/29/2025
+lang: fr
+crossref:
+    tbl-title: "Tableau"
+    tbl-prefix: "Tableau"
+    fig-title: "Figure"
+    fig-prefix: "Figure"
+date-format: "long"
+number-sections: true
+bibliography: references.bib
+# csl: https://www.zotero.org/styles/apa
+csl: https://www.zotero.org/styles/chicago-author-date-17th-edition
+citeproc: true
+---
+
+```
+
+# Liens utiles
+
+- [Posit](http://posit.cloud){target="_blank"} : la version en ligne de l'outil pour produire les documents Quarto.
+- [Positron](https://positron.posit.co/){target="_blank"} : si vous préférez la version hors ligne, ceci serait l'option la plus naturelle pour commencer. Il faudra installer [Quarto](https://quarto.org/docs/get-started/){target="_blank"} aussi, et si vous voulez combiner Quarto et l'analyse de données avec R, [installez R ici](https://cloud.r-project.org/).
+- [Quarto](https://quarto.org/docs/reference/){target="_blank"} : la page de référence
+- [LaTeX](http://fr.gdgarcia.ca/latex_phonology.html){target="_blank"} pour la phonologie.
+- [Livre numérique de LNG1100](http://lng1100.quarto.pub) - Méthodes expérimentales et analyse de données.
+
+
+
+
+# Références{-}
