@@ -35,7 +35,7 @@ Un document Quarto a l'extension `.qmd`. C'est essentiellement un fichier texte.
 
 Dans un document Quarto, on commence toujours par un **préambule**, toujours entouré de deux ensembles de `---`, où seront spécifiées les informations principales du document. Vous pouvez simplement copier et coller le préambule ci-dessous.
 
-```{.yaml} 
+```{yaml} 
 ---
 title: Un document quarto
 subtitle: Atelier ALFE sur la préparation des documents
@@ -92,7 +92,7 @@ Il est facile de formater le texte avec Quarto : on utilise simplement la syntax
 Quarto est souvent utilisé avec R, donc les tableaux sont générés à partir des blocs de codes en R (ou Python). Il est toutefois possible de créer des tableaux de façon manuelle aussi. En d'autres termes, vous pouvez utiliser Quarto sans avoir besoin de R, en tant qu'alternative à Microsoft Word.
 
 | **Pays** | **Capital**      | **Devise** |
-|----------|------------------|------------|i
+|----------|------------------|------------|
 | Canada   | Ottawa           | Dollar     |
 | Espagne  | Madrid           | Euro       |
 | Mexique  | Ciudad de México | Peso       |
@@ -166,7 +166,7 @@ Le mot-clé en question sera `zsiga2024sounds` (vous pouvez le changer, naturell
 Notre préambule maintenant aura un peu plus d'information (voir le code ci-dessous). On utilise APA pour nos références en ce moment, mais vous pouvez changer le style en modifiant l'argument `csl` dans le préambule selon le besoin (consultez le dépôt de styles de Zotero [ici](https://www.zotero.org/styles)).
 
 
-```{.yaml} 
+```{yaml} 
 ---
 title: Un document Quarto
 subtitle: Atelier ALFE sur la préparation des documents
